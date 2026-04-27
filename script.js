@@ -1,7 +1,14 @@
 let canvas;
-let character = new Image();
+let ctx;
+let character = new Character();
+let enemies = [
+    new squid(),
+    new squid(),
+    new squid(),
+];
 
 function init () {
     canvas = document.getElementById('canvas');
-    character.src = './assets/img/1.Sharkie/3.Swim/1.png';
+    ctx = canvas.getContext('2d');
+    
 }
