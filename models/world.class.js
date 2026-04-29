@@ -14,5 +14,15 @@ class World {
 
     draw() {
         this.ctx.drawImage(this.character.img, this.character.x, this.character.y, this.character.height, this.character.width)
+
+
+        this.enemies.forEach(enemy => {
+            this.ctx.drawImage(enemy.img, enemy.x, enemy.y, enemy.width, enemy.height);
+        });
+        
+        let self = this;
+        requestAnimationFrame(function() {
+            self.draw();
+        })
     }
 }
