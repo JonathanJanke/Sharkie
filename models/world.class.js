@@ -5,6 +5,9 @@ class World {
         new squid(),
         new squid(),
     ];
+    barrierH = [new BarrierH()];
+    backgroundObjects = [
+        new BackgroundObject('./assets/img/3. Background/Dark/1.png')];
     ctx;
 
     constructor (){
@@ -13,16 +16,28 @@ class World {
     }
 
     draw() {
-        this.ctx.drawImage(this.character.img, this.character.x, this.character.y, this.character.height, this.character.width)
+        this.ctx.clearRect(0, 0, 720, 480);
 
-
-        this.enemies.forEach(enemy => {
-            this.ctx.drawImage(enemy.img, enemy.x, enemy.y, enemy.width, enemy.height);
-        });
         
+        this.addObjToMap(this.backgroundObjects);
+        this.addToMap(this.character);
+        this.addObjToMap(this.enemies);
+        this.addObjToMap(this.barrierH);
+
         let self = this;
         requestAnimationFrame(function() {
             self.draw();
         })
+    }
+
+    addObjToMap(obj){
+        obj.forEach(o => {
+            this.addToMap(o);
+        })
+    }
+
+
+    addToMap(mo){
+            this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
     }
 }
