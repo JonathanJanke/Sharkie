@@ -21,25 +21,27 @@ class squid extends MoveableObject{
         this.animate();
     }
     animate () {
-        let startFW = setInterval(() => {
-            this.y -= 4;
-            
+    this.movingUp = false;
+
+    setInterval(() => {
             let i = this.currentImg % this.SWIM_IMGS.length;
             let path = this.SWIM_IMGS[i];
             this.img = this.imgCache[path];
             this.currentImg++;
-            if(this.y < 0){clearInterval(start); startBW = setInterval(() => {
-                this.y += 4;
-                let i = this.currentImg % this.SWIM_IMGS_BW.length;
-                let path = this.SWIM_IMGS_BW[i];
-                this.img = this.imgCache[path];
-                this.currentImg++;
-                if(this.y > 399){
-                    clearInterval(startBW);
-                    this.y = 400;
-                    this.animate();
+
+            if (!this.movingUp) {
+                this.y -= 4;
+
+                if (this.y < 0) {
+                    this.movingUp = true;
                 }
-            }, 200/0.75)};
-        }, 200/0.75);
+            } else {
+                this.y += 4;
+
+                if (this.y >= 440) {
+                    this.movingUp = false;
+                }
+            }
+        }, 200 / 0.75);
     }
 }
