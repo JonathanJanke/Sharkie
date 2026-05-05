@@ -4,6 +4,7 @@ class Character extends MoveableObject {
     width= 150;
     y = 350;
     x = 100;
+    world;
 
     SWIM_IMGS = [
         './assets/img/1.Sharkie/3.Swim/1.png',
@@ -23,11 +24,29 @@ class Character extends MoveableObject {
     }
     animate () {
         setInterval(()=>{
+            if(this.world.keyboard.RIGHT){
+                this.x += 8;
+                this.oppositeDirection = false;
+            }
+            if(this.world.keyboard.LEFT){
+                this.x -= 8;
+                this.oppositeDirection = true;
+            }
+            if(this.world.keyboard.UP){
+                this.y -= 8;
+            }
+            if(this.world.keyboard.DOWN){
+                this.y += 8;
+            }
+            this.world.camera_x = -this.x;
+        }, 1000 / 60)
+
+        setInterval(()=>{
             let i = this.currentImg % this.SWIM_IMGS.length;
             let path = this.SWIM_IMGS[i];
             this.img = this.imgCache[path];
             this.currentImg++;
-        }, 1000/4)
+        }, 100)
     }
     
     moveLeft() {
