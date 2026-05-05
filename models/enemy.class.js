@@ -24,10 +24,7 @@ class squid extends MoveableObject{
     this.movingUp = false;
 
     setInterval(() => {
-            let i = this.currentImg % this.SWIM_IMGS.length;
-            let path = this.SWIM_IMGS[i];
-            this.img = this.imgCache[path];
-            this.currentImg++;
+        this.playAnimation(this.SWIM_IMGS);
 
             if (!this.movingUp) {
                 this.y -= 4;

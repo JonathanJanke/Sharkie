@@ -24,41 +24,25 @@ class Character extends MoveableObject {
     }
     animate () {
         setInterval(()=>{
-            if(this.world.keyboard.RIGHT){
+            if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x){
                 this.x += 8;
                 this.oppositeDirection = false;
             }
-            if(this.world.keyboard.LEFT){
-                this.x -= 8;
-                this.oppositeDirection = true;
+            if(this.world.keyboard.LEFT && this.x > 100){
+                    this.x -= 8;
+                    this.oppositeDirection = true;
             }
-            if(this.world.keyboard.UP){
+            if(this.world.keyboard.UP && this.y > -66){
                 this.y -= 8;
             }
-            if(this.world.keyboard.DOWN){
+            if(this.world.keyboard.DOWN && this.y < 360){
                 this.y += 8;
             }
-            this.world.camera_x = -this.x;
+            this.world.camera_x = -this.x + 100;
         }, 1000 / 60)
 
         setInterval(()=>{
-            let i = this.currentImg % this.SWIM_IMGS.length;
-            let path = this.SWIM_IMGS[i];
-            this.img = this.imgCache[path];
-            this.currentImg++;
+            this.playAnimation(this.SWIM_IMGS);
         }, 100)
-    }
-    
-    moveLeft() {
-
-    }
-    moveRight(){
-
-    }
-    moveUp() {
-
-    }
-    moveDown() {
-
     }
 };

@@ -20,4 +20,11 @@ class MoveableObject {
             this.imgCache[path] = img;
         });
     }
+    playAnimation(SWIM_IMGS){
+        
+            let i = this.currentImg % this.SWIM_IMGS.length;
+            let path = this.SWIM_IMGS[i];
+            this.img = this.imgCache[path];
+            this.currentImg++;
+    }
 }
