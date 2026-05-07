@@ -1,8 +1,8 @@
 const level1 = new Level (
     [
-        new squid(),
-        new squid(),
-        new squid(),
+        new Squid(),
+        new Squid(),
+        new Squid(),
         new Boss(),
     ],
     [new BarrierH()],

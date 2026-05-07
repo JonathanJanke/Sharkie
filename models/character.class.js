@@ -44,5 +44,6 @@ class Character extends MoveableObject {
         setInterval(()=>{
             this.playAnimation(this.SWIM_IMGS);
         }, 100)
+
     }
 };

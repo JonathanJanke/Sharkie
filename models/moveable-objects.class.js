@@ -27,4 +27,34 @@ class MoveableObject {
             this.img = this.imgCache[path];
             this.currentImg++;
     }
+
+    drawCollissionFrame(ctx, mo){
+        
+        if(this instanceof Character || this instanceof Squid || this instanceof Boss){
+            ctx.beginPath();
+            ctx.lineWidth = "2";
+            ctx.strokeStyle = "blue";
+            ctx.rect(mo.x, mo.y, mo.width, mo.height);
+            ctx.stroke();
+            }
+        }
+
+    flipImg(ctx, mo){
+        ctx.save();
+        ctx.translate(mo.width, 0);
+        ctx.scale(-1, 1);
+        mo.x = mo.x * -1;
+    }
+    
+    unflipImg(ctx, mo){
+        mo.x = mo.x * -1;
+        ctx.restore();
+    }
+
+    isColliding(mo){
+        return this.x + this.width > mo.x &&
+            this.y + this.height > mo.y &&
+            this.x < mo.x &&
+            this.y < mo.y + mo.height;
+    }
 }

@@ -1,4 +1,4 @@
-class squid extends MoveableObject{
+class Squid extends MoveableObject{
     y = 400;
     SWIM_IMGS = [
         './assets/img/2.Enemy/2 Jelly fish/Regular damage/Lila 1.png',
