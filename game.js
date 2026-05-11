@@ -1,5 +1,6 @@
 let canvas;
 let keyboard = new Keyboard();
+enemies = level1.enemies;
 
 function init () {
     canvas = document.getElementById('canvas');
@@ -21,6 +22,7 @@ document.addEventListener("keydown", (e) => {
     }
     if(e.keyCode == 81){
         keyboard.Q = true;
+        enemies.forEach((enemy) => {enemy.got_hit = false;})
     }
     if(e.keyCode == 69){
         keyboard.E = true;

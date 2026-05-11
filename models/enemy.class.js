@@ -1,16 +1,11 @@
 class Squid extends MovableObject{
     y = 400;
+    got_hit = false;
     SWIM_IMGS = [
         './assets/img/2.Enemy/2 Jelly fish/Regular damage/Lila 1.png',
         './assets/img/2.Enemy/2 Jelly fish/Regular damage/Lila 2.png',
         './assets/img/2.Enemy/2 Jelly fish/Regular damage/Lila 3.png',
         './assets/img/2.Enemy/2 Jelly fish/Regular damage/Lila 4.png',
-    ]
-    SWIM_IMGS_BW = [
-        './assets/img/2.Enemy/2 Jelly fish/Regular damage/Lila 4.png',
-        './assets/img/2.Enemy/2 Jelly fish/Regular damage/Lila 3.png',
-        './assets/img/2.Enemy/2 Jelly fish/Regular damage/Lila 2.png',
-        './assets/img/2.Enemy/2 Jelly fish/Regular damage/Lila 1.png',
     ]
 
     constructor () {
@@ -18,6 +13,7 @@ class Squid extends MovableObject{
         this.loadImgs(this.SWIM_IMGS);
 
         this.x = 380 + Math.random()*500;
+        this.health = 20;
         this.animate();
     }
     animate () {

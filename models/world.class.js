@@ -4,7 +4,7 @@ class World {
     ctx;
     keyboard;
     camera_x = -0;
-    projectile = [];
+    projectiles = [];
 
     constructor (){
         this.ctx = canvas.getContext('2d');
@@ -23,6 +23,9 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.shootProjectile();
+            if(this.projectiles.length > 0){
+                this.checkHit();
+            }
         }, 200);
     }
 
@@ -31,7 +34,26 @@ class World {
                 if(this.character.isColliding(enemie)){
                     console.log('Collision with character',enemie);
                 }
+            }) 
+            this.level.barrierH.forEach((barrier) => {
+                if(this.character.isColliding(barrier)){
+                    this.character.x += 0;
+                    this.keyboard.RIGHT = false;
+                }
             })
+    }
+
+    checkHit () {
+        this.projectiles.forEach((projectile) => {
+            this.level.enemies.forEach((enemy) => {
+                if (projectile.isColliding(enemy)) {
+                    if (!enemy.got_hit) {
+                        console.log('Hit', enemy);
+                        enemy.got_hit = true;
+                    }
+                }
+            });
+        });
     }
 
     draw() {
@@ -42,7 +64,7 @@ class World {
         this.addToMap(this.character);
         this.addObjToMap(this.level.enemies);
         this.addObjToMap(this.level.barrierH);
-        this.addObjToMap(this.projectile);
+        this.addObjToMap(this.projectiles);
 
         this.ctx.translate(-this.camera_x, 0);
 
@@ -76,7 +98,7 @@ class World {
     shootProjectile () {
         if(this.keyboard.Q == true){
             let projectile = new Projectile(this.character.x, this.character.y);
-            this.projectile.push(projectile);
+            this.projectiles.push(projectile);
         }
         if(this.keyboard.E == true){
         }
