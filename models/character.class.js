@@ -1,4 +1,4 @@
-class Character extends MoveableObject {
+class Character extends MovableObject {
     
     height = 150;
     width= 150;

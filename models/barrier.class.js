@@ -1,4 +1,4 @@
-class BarrierH extends MoveableObject {
+class BarrierH extends MovableObject {
         constructor () {
         super().loadImg('./assets/img/3. Background/Barrier/3.png');
 

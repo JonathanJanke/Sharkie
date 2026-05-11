@@ -19,6 +19,12 @@ document.addEventListener("keydown", (e) => {
     if(e.keyCode == 83){
         keyboard.DOWN = true;
     }
+    if(e.keyCode == 81){
+        keyboard.Q = true;
+    }
+    if(e.keyCode == 69){
+        keyboard.E = true;
+    }
 })
 
 document.addEventListener("keyup", (e) => {
@@ -33,5 +39,11 @@ document.addEventListener("keyup", (e) => {
     }
     if(e.keyCode == 83){
         keyboard.DOWN = false;
+    }
+    if(e.keyCode == 81){
+        keyboard.Q = false;
+    }
+    if(e.keyCode == 69){
+        keyboard.E = false;
     }
 })

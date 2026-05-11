@@ -1,4 +1,4 @@
-class Boss  extends MoveableObject{
+class Boss  extends MovableObject{
 
     height = 400;
     width= 340;
