@@ -5,6 +5,7 @@ class Character extends MovableObject {
     y = 350;
     x = 100;
     world;
+    colliding = false;
 
     SWIM_IMGS = [
         './assets/img/1.Sharkie/3.Swim/1.png',
@@ -25,8 +26,12 @@ class Character extends MovableObject {
     animate () {
         setInterval(()=>{
             if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x){
+                if(this.colliding === true){
+                    this.x += 0;
+                }else{      
                 this.x += 8;
                 this.oppositeDirection = false;
+                }
             }
             if(this.world.keyboard.LEFT && this.x > 100){
                     this.x -= 8;

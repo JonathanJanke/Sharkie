@@ -21,7 +21,7 @@ class Boss  extends MovableObject{
     constructor() {
         super().loadImg(this.SWIM_IMGS[0]);
         this.loadImgs(this.SWIM_IMGS);
-        this.x = 800;
+        this.x = 1200;
         this.y = 100;
         this.animate();
     }

@@ -13,6 +13,7 @@ class World {
         this.setWorld();
         this.checkCollisions();
         this.run();
+        this.avoidStack();
     }
 
     setWorld() {
@@ -34,11 +35,13 @@ class World {
                 if(this.character.isColliding(enemie)){
                     console.log('Collision with character',enemie);
                 }
-            }) 
+            })  
             this.level.barrierH.forEach((barrier) => {
                 if(this.character.isColliding(barrier)){
                     this.character.x += 0;
-                    this.keyboard.RIGHT = false;
+                    this.character.colliding = true;
+                }else{
+                    this.character.colliding = false;
                 }
             })
     }
@@ -104,4 +107,18 @@ class World {
         }
     }
 
+    avoidStack(){
+        setInterval(() => {
+        this.level.enemies.forEach((enemie) => {
+            this.level.enemies.forEach((enemy) => {
+                if (enemie.isColliding(enemy) && enemie != enemy) {
+                    if (enemie.x < enemy.x) {
+                        enemie.x -= 60;}
+                        else{
+                        enemie.x += 60;}
+                }
+            });
+        });
+        }, 1000)
+    }
 }
