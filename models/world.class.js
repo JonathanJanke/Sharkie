@@ -5,6 +5,7 @@ class World {
     keyboard;
     camera_x = -0;
     projectiles = [];
+    statusBar = new StatusBar();
 
     constructor (){
         this.ctx = canvas.getContext('2d');
@@ -35,8 +36,10 @@ class World {
                 if(this.character.isColliding(enemie)){
                     if (enemie instanceof Boss) {
                         this.character.hit(enemie.damage);
+                        this.statusBar.setPercentage(this.character.health);
                     }else{
                         this.character.hit(enemie.damage);
+                        this.statusBar.setPercentage(this.character.health);
                     }
                 }
             })  
@@ -83,6 +86,11 @@ class World {
         
         this.ctx.translate(this.camera_x, 0);
         this.addObjToMap(this.level.backgroundObjects);
+        
+        this.ctx.translate(-this.camera_x, 0); //Back
+        this.addObjToMap(this.statusBar);
+        this.ctx.translate(this.camera_x, 0); // Forward
+
         this.addToMap(this.character);
         this.addObjToMap(this.level.enemies);
         this.addObjToMap(this.level.barrierH);
@@ -97,10 +105,12 @@ class World {
     }
 
     addObjToMap(obj){
-        obj.forEach(o => {
-            this.addToMap(o);
-        })
+    if (Array.isArray(obj)) {
+        obj.forEach(o => this.addToMap(o));
+    } else {
+        this.addToMap(obj);
     }
+}
 
 
     addToMap(mo){
