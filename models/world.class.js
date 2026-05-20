@@ -33,12 +33,16 @@ class World {
     checkCollisions(){
             this.level.enemies.forEach((enemie) => {
                 if(this.character.isColliding(enemie)){
-                    console.log('Collision with character',enemie);
+                    if (enemie instanceof Boss) {
+                        this.character.hit(enemie.damage);
+                    }else{
+                        this.character.hit(enemie.damage);
+                    }
                 }
             })  
             this.level.barrierH.forEach((barrier) => {
                 if(this.character.isColliding(barrier)){
-                    this.character.x += 0;
+                    this.character.rX += 0;
                     this.character.colliding = true;
                 }else{
                     this.character.colliding = false;
@@ -47,15 +51,30 @@ class World {
     }
 
     checkHit () {
-        this.projectiles.forEach((projectile) => {
-            this.level.enemies.forEach((enemy) => {
+        this.projectiles = this.projectiles.filter((projectile) => {
+            if (projectile.hasHit) {
+                projectile.stop();
+                return false;
+            }
+
+            projectile.getRealFrame();
+            let hit = false;
+
+            for (const enemy of this.level.enemies) {
+                enemy.getRealFrame();
+
                 if (projectile.isColliding(enemy)) {
-                    if (!enemy.got_hit) {
-                        console.log('Hit', enemy);
-                        enemy.got_hit = true;
-                    }
+                    console.log('Hit, enemy health: ' + enemy.health);
+                    enemy.got_hit = true;
+                    enemy.health -= 20;
+                    projectile.hasHit = true;
+                    projectile.stop();
+                    hit = true;
+                    break;
                 }
-            });
+            }
+
+            return !hit;
         });
     }
 

@@ -1,5 +1,12 @@
 class Projectile extends MovableObject {
 
+    rX;
+    rY;
+    rW;
+    rH;
+    hasHit = false;
+    moveInterval;
+
     constructor(x,y){
         super().loadImg('./assets/img/1.Sharkie/4.Attack/Bubble trap/Bubble.png');
         this.x = x + 100;
@@ -8,14 +15,36 @@ class Projectile extends MovableObject {
         this.width = 40;
         this.shoot(this.x, this.y);
     }
+    
+        offset = {
+        top: 10,
+        right: 10,
+        bottom: 20,
+        left: 20
+    }
+
+    getRealFrame(){
+        this.rX = this.x + this.offset.left;
+        this.rY = this.y + this.offset.top;
+        this.rW = this.width - this.offset.left - this.offset.right;
+        this.rH = this.height - this.offset.top - this.offset.bottom;
+    }
+
 
     shoot (x,y){
-        this.x = x;
-        this.y = y;
+
+        this.getRealFrame();
+
+        this.x = this.rX;
+        this.y = this.rY;
         
-        setInterval(()=> {
+        this.moveInterval = setInterval(()=> {
             this.x += 10;
         }, 25)
+    }
+
+    stop() {
+        clearInterval(this.moveInterval);
     }
 
 }

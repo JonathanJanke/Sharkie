@@ -7,6 +7,7 @@ class MovableObject {
     imgCache = {};
     currentImg = 0;
     oppositeDirection = false;
+    lastHit = 0;
 
     loadImg(path) {
         this.img = new Image();
@@ -20,12 +21,11 @@ class MovableObject {
             this.imgCache[path] = img;
         });
     }
-    playAnimation(SWIM_IMGS){
-        
-            let i = this.currentImg % this.SWIM_IMGS.length;
-            let path = this.SWIM_IMGS[i];
-            this.img = this.imgCache[path];
-            this.currentImg++;
+    playAnimation(images){
+        let i = this.currentImg % images.length;
+        let path = images[i];
+        this.img = this.imgCache[path];
+        this.currentImg++;
     }
 
     drawCollissionFrame(ctx, mo){
@@ -34,7 +34,8 @@ class MovableObject {
             ctx.beginPath();
             ctx.lineWidth = "2";
             ctx.strokeStyle = "blue";
-            ctx.rect(mo.x, mo.y, mo.width, mo.height);
+            this.getRealFrame();
+            ctx.rect(this.rX, this.rY, this.rW, this.rH);
             ctx.stroke();
             }
         }
@@ -52,9 +53,28 @@ class MovableObject {
     }
 
     isColliding(mo){
-        return this.x + this.width > mo.x &&
-            this.y + this.height > mo.y &&
-            this.x < mo.x + mo.width &&
-            this.y < mo.y + mo.height;
+        return this.rX + this.rW > mo.rX &&
+            this.rY + this.rH > mo.rY &&
+            this.rX < mo.rX + mo.rW &&
+            this.rY < mo.rY + mo.rH;
+    }
+
+    hit(damage) {
+        this.health -= damage;
+        if (this.health < 0) {
+            this.health = 0;
+        }else{
+            this.lastHit = new Date().getTime();
+        }
+    }
+
+    isHurt (){
+        let timepassed = new Date().getTime() - this.lastHit; // Differenc in ms
+        timepassed = timepassed / 1000; // Differenc in s
+        return timepassed < 1;
+    }
+
+    isDead(){
+        return this.health <= 0;
     }
 }
