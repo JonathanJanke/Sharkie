@@ -27,7 +27,9 @@ class DrawableObject {
             ctx.beginPath();
             ctx.lineWidth = "2";
             ctx.strokeStyle = "blue";
-            this.getRealFrame();
+            if (!this.oppositeDirection) {
+                this.getRealFrame();
+            }
             ctx.rect(this.rX, this.rY, this.rW, this.rH);
             ctx.stroke();
             }

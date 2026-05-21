@@ -6,7 +6,10 @@ class World {
     camera_x = -0;
     projectiles = [];
     statusBar = new StatusBar();
+    poisonBar = new PoisonBar();
     coins = [new Coin(400, 100), new Coin(800, 200), new Coin(1200, 300), new Coin(1600, 150)
+    ];
+    poisons = [new Poison(500, 150), new Poison(900, 250), new Poison(1300, 350), new Poison(1700, 200)
     ];
 
     constructor (){
@@ -36,11 +39,11 @@ class World {
     checkCollisions(){
             this.level.enemies.forEach((enemie) => {
                 if(this.character.isColliding(enemie)){
-                    if (enemie instanceof Boss) {
+                    if (enemie instanceof Boss && !this.character.isHurt()) {
                         this.character.hit(enemie.damage);
                         this.statusBar.setPercentage(this.character.health);
                     }
-                    else{
+                    else if (!this.character.isHurt()){
                         this.character.hit(enemie.damage);
                         this.statusBar.setPercentage(this.character.health);
                     }
@@ -57,11 +60,20 @@ class World {
 
             this.coins.forEach((coin) => {
                 if(this.character.isColliding(coin)){
-                    this.coins.splice(this.coins.indexOf(coin), 1);
-                    this.character.coins += 1;
-                    if(this.character.health < 100){
+                    if(this.character.health < 91){
+                        this.coins.splice(this.coins.indexOf(coin), 1);
+                        this.character.coins += 1;
                         this.character.health += 10;
                         this.statusBar.setPercentage(this.character.health);
+                }
+                }
+            })
+            this.poisons.forEach((poison) => {
+                if(this.character.isColliding(poison)){
+                    if(this.character.health > 0){
+                        this.poisons.splice(this.poisons.indexOf(poison), 1);
+                        this.character.poison_collected += 1;
+                        this.poisonBar.setPercentage(this.character.poison_collected);
                     }
                 }
             })
@@ -103,10 +115,12 @@ class World {
         
         this.ctx.translate(-this.camera_x, 0); //Back
         this.addObjToMap(this.statusBar);
+        this.addObjToMap(this.poisonBar);
         this.ctx.translate(this.camera_x, 0); // Forward
 
         this.addToMap(this.character);
         this.addObjToMap(this.coins);
+        this.addObjToMap(this.poisons);
         this.addObjToMap(this.level.enemies);
         this.addObjToMap(this.level.barrierH);
         this.addObjToMap(this.projectiles);
@@ -129,6 +143,10 @@ class World {
 
 
     addToMap(mo){
+        if (mo.getRealFrame) {
+            mo.getRealFrame();
+        }
+
         if (mo.oppositeDirection){
             mo.flipImg(this.ctx, mo);
         }
