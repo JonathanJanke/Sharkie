@@ -15,7 +15,7 @@ constructor(){
     this.loadImgs(this.IMAGES_HEALTH);
     this.x = 100;
     this.y = 50;
-    this.width = 160;
+    this.width = 180;
     this.height = 60;
     this.setPercentage(0);
 }

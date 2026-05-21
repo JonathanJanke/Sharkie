@@ -1,7 +1,7 @@
 class Squid extends MovableObject{
     y = 400;
     health = 40;
-    damage = 5;
+    damage = 10;
 
     rX;
     rY;
@@ -16,6 +16,7 @@ class Squid extends MovableObject{
         left: 20
     }
 
+    deadAnimationStarted = false;
     got_hit = false;
     SWIM_IMGS = [
         './assets/img/2.Enemy/2 Jelly fish/Regular damage/Lila 1.png',
@@ -23,6 +24,10 @@ class Squid extends MovableObject{
         './assets/img/2.Enemy/2 Jelly fish/Regular damage/Lila 3.png',
         './assets/img/2.Enemy/2 Jelly fish/Regular damage/Lila 4.png',
     ]
+
+    HURT_IMGS = []
+
+    DEAD_IMGS = []
 
     constructor () {
         super().loadImg('./assets/img/2.Enemy/2 Jelly fish/Regular damage/Lila 1.png');
@@ -57,6 +62,12 @@ class Squid extends MovableObject{
 
                 if (this.y >= 440) {
                     this.movingUp = false;
+                }
+            }
+            if (this.isDead()) {
+                if (!this.deadAnimationStarted) {
+                    this.deadAnimationStarted = true;
+                    this.currentImg = 0;
                 }
             }
         }, 200 / 0.75);

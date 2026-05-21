@@ -26,6 +26,7 @@ document.addEventListener("keydown", (e) => {
     }
     if(e.keyCode == 69){
         keyboard.E = true;
+        enemies.forEach((enemy) => {enemy.got_hit = false;})
     }
 })
 

@@ -5,6 +5,7 @@ class World {
     keyboard;
     camera_x = -0;
     projectiles = [];
+    projectiles_enhanced = [];
     statusBar = new StatusBar();
     poisonBar = new PoisonBar();
     coins = [new Coin(400, 100), new Coin(800, 200), new Coin(1200, 300), new Coin(1600, 150)
@@ -124,6 +125,7 @@ class World {
         this.addObjToMap(this.level.enemies);
         this.addObjToMap(this.level.barrierH);
         this.addObjToMap(this.projectiles);
+        this.addObjToMap(this.projectiles_enhanced);
 
         this.ctx.translate(-this.camera_x, 0);
 
@@ -165,7 +167,11 @@ class World {
             let projectile = new Projectile(this.character.x, this.character.y);
             this.projectiles.push(projectile);
         }
-        if(this.keyboard.E == true){
+        if(this.keyboard.E == true && this.character.poison_collected > 0){
+            let projectile = new EnhancedProjectile(this.character.x, this.character.y);
+            this.projectiles_enhanced.push(projectile);
+            this.character.poison_collected -= 1;
+            this.poisonBar.setPercentage(this.character.poison_collected);
         }
     }
 
