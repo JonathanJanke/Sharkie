@@ -6,6 +6,8 @@ class World {
     camera_x = -0;
     projectiles = [];
     statusBar = new StatusBar();
+    coins = [new Coin(400, 100), new Coin(800, 200), new Coin(1200, 300), new Coin(1600, 150)
+    ];
 
     constructor (){
         this.ctx = canvas.getContext('2d');
@@ -37,7 +39,8 @@ class World {
                     if (enemie instanceof Boss) {
                         this.character.hit(enemie.damage);
                         this.statusBar.setPercentage(this.character.health);
-                    }else{
+                    }
+                    else{
                         this.character.hit(enemie.damage);
                         this.statusBar.setPercentage(this.character.health);
                     }
@@ -49,6 +52,17 @@ class World {
                     this.character.colliding = true;
                 }else{
                     this.character.colliding = false;
+                }
+            })
+
+            this.coins.forEach((coin) => {
+                if(this.character.isColliding(coin)){
+                    this.coins.splice(this.coins.indexOf(coin), 1);
+                    this.character.coins += 1;
+                    if(this.character.health < 100){
+                        this.character.health += 10;
+                        this.statusBar.setPercentage(this.character.health);
+                    }
                 }
             })
     }
@@ -92,6 +106,7 @@ class World {
         this.ctx.translate(this.camera_x, 0); // Forward
 
         this.addToMap(this.character);
+        this.addObjToMap(this.coins);
         this.addObjToMap(this.level.enemies);
         this.addObjToMap(this.level.barrierH);
         this.addObjToMap(this.projectiles);

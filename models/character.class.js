@@ -12,6 +12,7 @@ class Character extends MovableObject {
     rW;
     rH;
 
+    coins = 0;
     world;
     colliding = false;
     deadAnimationStarted = false;

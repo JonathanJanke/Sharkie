@@ -1,7 +1,7 @@
 class Squid extends MovableObject{
     y = 400;
     health = 40;
-    damage = 20;
+    damage = 5;
 
     rX;
     rY;
