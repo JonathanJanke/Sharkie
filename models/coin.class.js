@@ -10,10 +10,10 @@ class Coin extends DrawableObject{
 
     
     offset = {
-        top: 20,
-        right: 20,
-        bottom: 30,
-        left: 20
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0
     }
 
      constructor (x, y) {

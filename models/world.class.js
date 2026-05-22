@@ -94,7 +94,6 @@ class World {
                 enemy.getRealFrame();
 
                 if (projectile.isColliding(enemy)) {
-                    console.log('Hit, enemy health: ' + enemy.health);
                     enemy.got_hit = true;
                     enemy.health -= 20;
                     projectile.hasHit = true;
@@ -110,7 +109,7 @@ class World {
 
     draw() {
         this.ctx.clearRect(0, 0, 720, 480);
-        
+
         this.ctx.translate(this.camera_x, 0);
         this.addObjToMap(this.level.backgroundObjects);
         
@@ -124,8 +123,15 @@ class World {
         this.addObjToMap(this.poisons);
         this.addObjToMap(this.level.enemies);
         this.addObjToMap(this.level.barrierH);
+
+        if (this.projectiles.length > 0) {
+            this.checkHit();
+        }
+
         this.addObjToMap(this.projectiles);
         this.addObjToMap(this.projectiles_enhanced);
+
+        this.level.enemies = this.level.enemies.filter(enemy => !enemy.removeAfterDeath);
 
         this.ctx.translate(-this.camera_x, 0);
 

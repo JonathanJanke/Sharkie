@@ -16,6 +16,7 @@ class Squid extends MovableObject{
         left: 20
     }
 
+    removeAfterDeath = false;
     deadAnimationStarted = false;
     got_hit = false;
     SWIM_IMGS = [
@@ -25,17 +26,20 @@ class Squid extends MovableObject{
         './assets/img/2.Enemy/2 Jelly fish/Regular damage/Lila 4.png',
     ]
 
-    HURT_IMGS = []
-
-    DEAD_IMGS = []
+    DEAD_IMGS = ['assets/img/2.Enemy/2 Jelly fish/Dead/Lila/L1.png',
+                 'assets/img/2.Enemy/2 Jelly fish/Dead/Lila/L2.png',
+                 'assets/img/2.Enemy/2 Jelly fish/Dead/Lila/L3.png',
+                 'assets/img/2.Enemy/2 Jelly fish/Dead/Lila/L4.png',
+        ]
 
     constructor () {
         super().loadImg('./assets/img/2.Enemy/2 Jelly fish/Regular damage/Lila 1.png');
         this.loadImgs(this.SWIM_IMGS);
+        this.loadImgs(this.DEAD_IMGS);
 
         this.x = 420 + Math.random()*500;
-        this.health = 20;
         this.animate();
+        this.checkDeath();
     }
 
     getRealFrame(){
@@ -46,30 +50,44 @@ class Squid extends MovableObject{
     }
 
     animate () {
-    this.movingUp = false;
+        this.movingUp = false;
 
-    setInterval(() => {
-        this.playAnimation(this.SWIM_IMGS);
+        setInterval(() => {
+            if (!this.deadAnimationStarted) {
+                this.playAnimation(this.SWIM_IMGS);
 
-            if (!this.movingUp) {
-                this.y -= 4;
+                if (!this.movingUp) {
+                    this.y -= 4;
 
-                if (this.y < 0) {
-                    this.movingUp = true;
-                }
-            } else {
-                this.y += 4;
+                    if (this.y < 0) {
+                        this.movingUp = true;
+                    }
+                } else {
+                    this.y += 4;
 
-                if (this.y >= 440) {
-                    this.movingUp = false;
-                }
-            }
-            if (this.isDead()) {
-                if (!this.deadAnimationStarted) {
-                    this.deadAnimationStarted = true;
-                    this.currentImg = 0;
+                    if (this.y >= 440) {
+                        this.movingUp = false;
+                    }
                 }
             }
         }, 200 / 0.75);
     }
-}
+
+    checkDeath() {
+        setInterval(() => {
+            if (this.health <= 0) {
+                if (!this.deadAnimationStarted) {
+                    this.deadAnimationStarted = true;
+                    this.currentImg = 0;
+                }
+
+                if (this.currentImg < this.DEAD_IMGS.length) {
+                    this.playAnimation(this.DEAD_IMGS);
+                } else {
+                    this.img = this.imgCache[this.DEAD_IMGS[this.DEAD_IMGS.length - 1]];
+                    this.removeAfterDeath = true;
+                }
+            }
+        }, 100);
+    }
+} 

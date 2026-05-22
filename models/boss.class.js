@@ -27,6 +27,19 @@ class Boss  extends MovableObject{
         './assets/img/2.Enemy/3 Final Enemy/2.floating/13.png',
     ]
 
+    HURT_IMGS = ['./assets/img/2.Enemy/3 Final Enemy/1.hurt/1.png',
+                 './assets/img/2.Enemy/3 Final Enemy/1.hurt/2.png',
+                 './assets/img/2.Enemy/3 Final Enemy/1.hurt/3.png',
+                 './assets/img/2.Enemy/3 Final Enemy/1.hurt/4.png'
+    ]
+
+    DEAD_IMGS = ['assets/img/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 6.png',
+                 'assets/img/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 7.png',
+                 'assets/img/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 8.png',
+                 'assets/img/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 9.png',
+                 'assets/img/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 10.png',
+    ]
+
     offset = {
         top: 160,
         right: 30,
