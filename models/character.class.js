@@ -80,6 +80,7 @@ class Character extends MovableObject {
                 if(this.colliding === true){
                     this.x += 0;
                 }else{      
+                console.log(this.rX);
                 this.x += 8;
                 this.oppositeDirection = false;
                 }

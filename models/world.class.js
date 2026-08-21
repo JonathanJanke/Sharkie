@@ -29,6 +29,11 @@ class World {
 
     run(){
         setInterval(() => {
+            this.level.enemies.forEach((enemie) => {
+                if (enemie instanceof Boss) {
+                    enemie.followCharacter(this.character);
+                }
+            });
             this.checkCollisions();
             this.shootProjectile();
             if(this.projectiles.length > 0){
@@ -48,14 +53,6 @@ class World {
                         this.character.hit(enemie.damage);
                         this.statusBar.setPercentage(this.character.health);
                     }
-                }
-            })  
-            this.level.barrierH.forEach((barrier) => {
-                if(this.character.isColliding(barrier)){
-                    this.character.rX += 0;
-                    this.character.colliding = true;
-                }else{
-                    this.character.colliding = false;
                 }
             })
 
@@ -122,7 +119,6 @@ class World {
         this.addObjToMap(this.coins);
         this.addObjToMap(this.poisons);
         this.addObjToMap(this.level.enemies);
-        this.addObjToMap(this.level.barrierH);
 
         if (this.projectiles.length > 0) {
             this.checkHit();
@@ -155,16 +151,16 @@ class World {
             mo.getRealFrame();
         }
 
-        if (mo.oppositeDirection){
-            mo.flipImg(this.ctx, mo);
-        }
-        
-        mo.drawCollissionFrame(this.ctx, mo);
-
-        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
-
-        if(mo.oppositeDirection){
-            mo.unflipImg(this.ctx, mo);
+        if (mo.oppositeDirection) {
+            this.ctx.save();
+            this.ctx.translate(mo.x + mo.width, 0);
+            this.ctx.scale(-1, 1);
+            // Skip collision frame while flipped to avoid transformed coordinate mismatch
+            this.ctx.drawImage(mo.img, 0, mo.y, mo.width, mo.height);
+            this.ctx.restore();
+        } else {
+            mo.drawCollissionFrame(this.ctx, mo);
+            this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
         }
     }
 

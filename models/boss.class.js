@@ -5,6 +5,10 @@ class Boss  extends MovableObject{
 
     health = 80;
     damage = 40;
+    chasing = false;
+    biting = false;            // whether boss is currently performing a bite animation/action
+    lastBite = 0;              // timestamp of last bite
+    biteCooldown = 1000;       // ms between bites
 
     rX;
     rY;
@@ -40,6 +44,14 @@ class Boss  extends MovableObject{
                  'assets/img/2.Enemy/3 Final Enemy/Dead/Mesa de trabajo 2 copia 10.png',
     ]
 
+    BITE_IMGS= ['./assets/img/2.Enemy/3 Final Enemy/3.attack/1.png',
+                './assets/img/2.Enemy/3 Final Enemy/3.attack/2.png',
+                './assets/img/2.Enemy/3 Final Enemy/3.attack/3.png',
+                './assets/img/2.Enemy/3 Final Enemy/3.attack/4.png',
+                './assets/img/2.Enemy/3 Final Enemy/3.attack/5.png',
+                './assets/img/2.Enemy/3 Final Enemy/3.attack/6.png',
+        ]
+
     offset = {
         top: 160,
         right: 30,
@@ -63,9 +75,49 @@ class Boss  extends MovableObject{
     }
 
     animate () {
-        
         setInterval(()=>{
-            this.playAnimation(this.SWIM_IMGS);
+            if (this.biting) {
+                this.playAnimation(this.BITE_IMGS);
+            } else {
+                this.playAnimation(this.SWIM_IMGS);
+            }
         }, 100)
+    }
+
+    followCharacter(character) {
+        if (character.x > 3000) {
+            this.chasing = true;
+            const directionX = Math.sign(character.x - this.x);
+            const directionY = Math.sign(character.y - this.y);
+
+            if (Math.abs(character.x - this.x) > 15) {
+                this.x += directionX * 4;
+            }
+
+            if (Math.abs(character.y - this.y) > 15) {
+                this.y += directionY * 2;
+            }
+
+            this.oppositeDirection = directionX > 0;
+
+            // Use bounding-box collision to determine biting instead of a small raw coordinate threshold.
+            if (this.getRealFrame) this.getRealFrame();
+            if (character.getRealFrame) character.getRealFrame();
+
+            if (this.isColliding && this.isColliding(character)) {
+                const now = new Date().getTime();
+                if (now - this.lastBite > this.biteCooldown) {
+                    // perform bite: damage player and trigger bite animation state briefly
+                    character.hit(this.damage);
+                    this.lastBite = now;
+                    this.biting = true;
+                    setTimeout(() => { this.biting = false; }, 500);
+                }
+            } else {
+                this.biting = false;
+            }
+        } else {
+            this.chasing = false;
+        }
     }
 }

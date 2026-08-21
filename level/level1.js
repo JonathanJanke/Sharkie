@@ -5,7 +5,6 @@ const level1 = new Level (
         new Squid(),
         new Boss(),
     ],
-    [new BarrierH()],
     [
         new BackgroundObject('./assets/img/3. Background/Layers/5. Water/D1.png', 0, 0),
         new BackgroundObject('./assets/img/3. Background/Layers/3.Fondo 1/D1.png', 0, 0),
